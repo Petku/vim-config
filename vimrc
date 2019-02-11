@@ -111,6 +111,9 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
+"Terminal
+set termwinsize=10x0
+autocmd BufReadPre,BufNewFile *.c,*.h,*.cpp,*.py below terminal
 
 "Spaces & tabs
 set tabstop=4       " number of visual spaces per TAB
@@ -163,7 +166,7 @@ let g:powerline_pycmd = 'py3'
 let g:powerline_pyeval = 'py3eval'
 
 "NERDTree configuration 
-"autocmd vimenter * NERDTree
+autocmd BufReadPre,BufNewFile *.c,*.h,*.cpp,*.py NERDTree
 map <C-n> :NERDTreeToggle<CR>
 map <C-m> :TagbarToggle<CR>
 "This line closes NerdTree if only its tab is open
