@@ -42,7 +42,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'jeetsukumaran/vim-buffergator'
 "Plugin 'gilsondev/searchtasks.vim'
-Plugin 'Shougo/neocomplete.vim'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-dispatch'
 
 " Generic Programming Support
@@ -111,8 +111,10 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
+set mouse=a "Enables switching windows & text navigation with mouse
+
 "Terminal
-"jset termwinsize=10x0
+"set termwinsize=10x0
 "autocmd BufReadPre,BufNewFile *.c,*.h,*.cpp,*.py below terminal
 
 "Spaces & tabs
@@ -123,6 +125,8 @@ set autoindent      " New lines inherit the indentation of previous lines.
 set shiftwidth=4    " Indent 4 spaces
 
 "UI Config
+set splitbelow          " opens new buffer below current
+set splitright          " opens new buffer below current
 set number              " show line numbers
 set ruler               " always show cursor position
 set laststatus=2        " always shows the status bar
@@ -153,6 +157,7 @@ set foldmethod=indent   " fold based on indent level
 "Vim airline Settings
 let g:airline_theme='deus'
 let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#fnamemod = 'NERDTree'
 
 "Silver Searcher Settings
 let g:ackprg = 'ag --vimgrep'
@@ -169,6 +174,16 @@ map <C-n> :NERDTreeToggle<CR>
 map <C-m> :TagbarToggle<CR>
 "This line closes NerdTree if only its tab is open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+augroup nerdtreehidecwd
+  autocmd!
+  autocmd FileType nerdtree setlocal conceallevel=3
+          \ | syntax match NERDTreeHideCWD #^[</].*$# conceal
+          \ | setlocal concealcursor=n
+augroup end
+
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 
 "Ultisnipets
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
