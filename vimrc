@@ -10,77 +10,34 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
+" Git 
 Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-"
-"Powerline
-"Plugin 'powerline/fonts'
-"Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
-" Utility
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'ervandew/supertab'
-Plugin 'BufOnly.vim'
-Plugin 'wesQ3/vim-windowswap'
-Plugin 'SirVer/ultisnips'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/fzf'
-Plugin 'godlygeek/tabular'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'jeetsukumaran/vim-buffergator'
-"Plugin 'gilsondev/searchtasks.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-dispatch'
+" Utilities
+Plugin 'tmhedberg/SimpylFold' "Folding
+Plugin 'vim-scripts/indentpython.vim' "Indent python
+Plugin 'Valloric/YouCompleteMe' "Completer
+Plugin 'vim-syntastic/syntastic' "Syntax checking
+Plugin 'nvie/vim-flake8' "PEP8 checking syntax
+Plugin 'scrooloose/nerdtree' "File browser
+Plugin 'jistr/vim-nerdtree-tabs' "Nerd tree TABS
+Plugin 'ctrlpvim/ctrlp.vim' "Super searching
+Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'python-rope/ropevim' " Refactoring for python
+Plugin 'jiangmiao/auto-pairs' " Autoclose plugin
 
-" Generic Programming Support
-Plugin 'honza/vim-snippets'
-Plugin 'Townk/vim-autoclose'
-"Plugin 'tomtom/tcomment_vim'
-"Plugin 'tobyS/vmustache'
-"Plugin 'janko-m/vim-test'
-Plugin 'maksimr/vim-jsbeautify'
-"Plugin 'vim-syntastic/syntastic'
-"Plugin 'neomake/neomake'
+"Markdown
+Plugin 'isnowfy/python-vim-instant-markdown'
+Plugin 'jtratner/vim-flavored-markdown'
+Plugin 'suan/vim-instant-markdown'
+Plugin 'nelstrom/vim-markdown-preview'
 
-" Markdown / Writting
-"Plugin 'reedes/vim-pencil'
-Plugin 'tpope/vim-markdown'
-"Plugin 'jtratner/vim-flavored-markdown'
-"Plugin 'LanguageTool'
-
-" Git Support
-Plugin 'kablamo/vim-git-log'
-Plugin 'gregsexton/gitv'
-"Plugin 'jaxbot/github-issues.vim'
-
-" Theme / Interface
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'sjl/badwolf'
-Plugin 'tomasr/molokai'
-Plugin 'dracula/vim'
+"Theme / Interface
 Plugin 'blueshirts/darcula'
-"Plugin 'romainl/Apprentice'
-Plugin 'AlessandroYorba/Sierra'
-"Plugin 'atelierbram/Base2Tone-vim'
-"Plugin 'colepeters/spacemacs-theme.vim'
+Plugin 'jnurmine/Zenburn' " terminal mode
+Plugin 'altercation/vim-colors-solarized' " GUI mode
+Plugin 'morhetz/gruvbox'
 
-" OSX stupid backspace fix
-set backspace=indent,eol,start
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -93,29 +50,26 @@ filetype plugin indent on    " required
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
+" " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-"
-let mapleader=","       " leader is comma
 
 " Theme and Styling
-colorscheme darcula " awesome colorscheme
 syntax enable " enable syntax processing
 
-set t_Co=256
 set background=dark
-"set guifont=DroidSansMono\ Nerd\ Font\ 11
+"colorscheme solarized
+"colorscheme darcula " awesome colorscheme
+colorscheme gruvbox
+
+highlight Comment cterm=italic gui=italic
+
+
+set t_Co=256
+set guifont=DroidSansMono\ Nerd\ Font\ 11
 
 if (has("termguicolors"))
   set termguicolors
 endif
-
-set mouse=a "Enables switching windows & text navigation with mouse
-
-"Terminal
-"set termwinsize=10x0
-"autocmd BufReadPre,BufNewFile *.c,*.h,*.cpp,*.py below terminal
 
 "Spaces & tabs
 set tabstop=4       " number of visual spaces per TAB
@@ -137,7 +91,6 @@ set wildmenu            " visual autocomplete for command menu
 "set lazyredraw          " redraw only when we need to.
 set showmatch           " highlight matching [{()}]
 set fillchars+=vert:\   " removes ugly styling of borders in vim 
-set encoding=UTF-8
 
 "Searching
 set incsearch           " search as characters are entered
@@ -146,88 +99,111 @@ set hlsearch            " highlight matches
 " turn off search highlight
 nnoremap <leader><space> :nohlsearch<CR>
 
-"Folding
-set foldenable          " enable folding
-set foldlevelstart=10   " open most folds by default
-set foldnestmax=10      " 10 nested fold max
-" space open/closes folds
+" Where to split vim tabs
+set splitbelow
+set splitright
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+" Enable folding with the spacebar
 nnoremap <space> za
-set foldmethod=indent   " fold based on indent level
+let g:SimpylFold_docstring_preview=1 "Docstring for folds SimplyFold Plugin
 
-"Vim airline Settings
-let g:airline_theme='deus'
-let g:airline_powerline_fonts = 1
-"let g:airline#extensions#tabline#fnamemod = 'NERDTree'
 
-"Silver Searcher Settings
-let g:ackprg = 'ag --vimgrep'
+"------------Start Python PEP 8 stuff----------------
+" Number of spaces that a pre-existing tab is equal to.
+au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
 
-" CtrlP settings
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+"spaces for indents
+au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
+au BufRead,BufNewFile *.py,*.pyw set expandtab
+au BufRead,BufNewFile *.py set softtabstop=4
 
-"NERDTree configuration 
-"autocmd BufReadPre,BufNewFile *.c,*.h,*.cpp,*.py NERDTree
+" Use the below highlight group when displaying bad whitespace is desired.
+highlight BadWhitespace ctermbg=red guibg=red
+
+" Display tabs at the beginning of a line in Python mode as bad.
+au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+" Make trailing whitespace be flagged as bad.
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" Wrap text after a certain number of characters
+au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
+
+" Use UNIX (\n) line endings.
+au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
+
+" Set the default file encoding to UTF-8:
+set encoding=utf-8
+
+" For full syntax highlighting:
+let python_highlight_all=1
+syntax on
+
+" Keep indentation level from previous line:
+autocmd FileType python set autoindent
+
+" make backspaces more powerfull
+set backspace=indent,eol,start
+
+
+"Folding based on indentation:
+autocmd FileType python set foldmethod=indent
+"use space to open folds
+nnoremap <space> za
+"----------Stop python PEP 8 stuff--------------
+
+"YouCompleteMe settings
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_global_ycm_extra_conf = '$HOME/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+"Look pretty code!!!
+let python_highlight_all=1
+syntax on 
+
+" Solarized switching background
+call togglebg#map("<F5>")
+
+" NerdTree settings
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 map <C-n> :NERDTreeToggle<CR>
-map <C-m> :TagbarToggle<CR>
-"This line closes NerdTree if only its tab is open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"let g:nerdtree_tabs_open_on_console_startup=1 "Run on console startup
 
-augroup nerdtreehidecwd
-  autocmd!
-  autocmd FileType nerdtree setlocal conceallevel=3
-          \ | syntax match NERDTreeHideCWD #^[</].*$# conceal
-          \ | setlocal concealcursor=n
-augroup end
 
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
+" Syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-"Ultisnipets
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+set clipboard=unnamed "On Os X accesses system clipboard
 
-" Fzf Configuration
-" This is the default extra key bindings
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
+" CtrlP setting to be fast AF
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('ag')
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
-" Default fzf layout
-" - down / up / left / right
-let g:fzf_layout = { 'down': '~40%' }
-
-" In Neovim, you can set up fzf window using a Vim command
-let g:fzf_layout = { 'window': 'enew' }
-let g:fzf_layout = { 'window': '-tabnew' }
-
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-" Enable per-command history.
-" CTRL-N and CTRL-P will be automatically bound to next-history and
-" previous-history instead of down and up. If you don't like the change,
-" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-"Bindings
