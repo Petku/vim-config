@@ -23,7 +23,7 @@ Plugin 'scrooloose/nerdtree' "File browser
 Plugin 'jistr/vim-nerdtree-tabs' "Nerd tree TABS
 Plugin 'ctrlpvim/ctrlp.vim' "Super searching
 Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'python-rope/ropevim' " Refactoring for python
+"Plugin 'python-rope/ropevim' " Refactoring for python
 Plugin 'jiangmiao/auto-pairs' " Autoclose plugin
 
 "Markdown
@@ -34,9 +34,9 @@ Plugin 'nelstrom/vim-markdown-preview'
 
 "Theme / Interface
 Plugin 'blueshirts/darcula'
-Plugin 'jnurmine/Zenburn' " terminal mode
-Plugin 'altercation/vim-colors-solarized' " GUI mode
 Plugin 'morhetz/gruvbox'
+Plugin 'jdsimcoe/abstract.vim'
+Plugin 'ayu-theme/ayu-vim'
 
 
 " All of your Plugins must be added before the following line
@@ -56,10 +56,15 @@ filetype plugin indent on    " required
 " Theme and Styling
 syntax enable " enable syntax processing
 
-set background=dark
+"set background=dark
 "colorscheme solarized
 "colorscheme darcula " awesome colorscheme
-colorscheme gruvbox
+"colorscheme gruvbox
+"colorscheme abstract
+set termguicolors     " enable true colors support
+let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
+colorscheme ayu
 
 highlight Comment cterm=italic gui=italic
 
@@ -180,7 +185,7 @@ let python_highlight_all=1
 syntax on 
 
 " Solarized switching background
-call togglebg#map("<F5>")
+"call togglebg#map("<F5>")
 
 " NerdTree settings
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
