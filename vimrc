@@ -87,6 +87,7 @@ set shiftwidth=4    " Indent 4 spaces
 set splitbelow          " opens new buffer below current
 set splitright          " opens new buffer below current
 set number              " show line numbers
+set relativenumber
 set ruler               " always show cursor position
 set laststatus=2        " always shows the status bar
 "set showcmd             " show command in bottom bar
