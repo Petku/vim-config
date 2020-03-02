@@ -10,34 +10,17 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" Git 
-Plugin 'tpope/vim-fugitive'
 
-" Utilities
-Plugin 'tmhedberg/SimpylFold' "Folding
-Plugin 'vim-scripts/indentpython.vim' "Indent python
-Plugin 'Valloric/YouCompleteMe' "Completer
-Plugin 'vim-syntastic/syntastic' "Syntax checking
-Plugin 'nvie/vim-flake8' "PEP8 checking syntax
-Plugin 'scrooloose/nerdtree' "File browser
-Plugin 'jistr/vim-nerdtree-tabs' "Nerd tree TABS
-Plugin 'ctrlpvim/ctrlp.vim' "Super searching
-Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-"Plugin 'python-rope/ropevim' " Refactoring for python
+Plugin 'preservim/nerdtree' "File browser
+Plugin 'ycm-core/YouCompleteMe'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'jiangmiao/auto-pairs' " Autoclose plugin
-
-"Markdown
-Plugin 'isnowfy/python-vim-instant-markdown'
-Plugin 'jtratner/vim-flavored-markdown'
-Plugin 'suan/vim-instant-markdown'
-Plugin 'nelstrom/vim-markdown-preview'
+Plugin 'vim-scripts/indentpython.vim' " PEP8 vim indent plugin
+Plugin 'junegunn/fzf' " Fzf vim plugin
+Plugin 'junegunn/fzf.vim' " Fzf vim plugin
 
 "Theme / Interface
-Plugin 'blueshirts/darcula'
-Plugin 'morhetz/gruvbox'
-Plugin 'jdsimcoe/abstract.vim'
 Plugin 'ayu-theme/ayu-vim'
-
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -50,7 +33,8 @@ filetype plugin indent on    " required
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-" " see :h vundle for more details or wiki for FAQ
+"
+" see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
 " Theme and Styling
@@ -62,15 +46,10 @@ syntax enable " enable syntax processing
 "colorscheme gruvbox
 "colorscheme abstract
 set termguicolors     " enable true colors support
-let ayucolor="mirage" " for mirage version of theme
-"let ayucolor="dark"   " for dark version of theme
+"let ayucolor="mirage" " for mirage version of theme
+let ayucolor="dark"   " for dark version of theme
 colorscheme ayu
 
-highlight Comment cterm=italic gui=italic
-
-
-set t_Co=256
-set guifont=DroidSansMono\ Nerd\ Font\ 11
 
 if (has("termguicolors"))
   set termguicolors
@@ -97,6 +76,7 @@ set wildmenu            " visual autocomplete for command menu
 "set lazyredraw          " redraw only when we need to.
 set showmatch           " highlight matching [{()}]
 set fillchars+=vert:\   " removes ugly styling of borders in vim 
+set backspace=indent,eol,start " Make bacskpace as usual
 
 "Searching
 set incsearch           " search as characters are entered
@@ -115,78 +95,10 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" Enable folding
-set foldmethod=indent
-set foldlevel=99
-" Enable folding with the spacebar
-nnoremap <space> za
-let g:SimpylFold_docstring_preview=1 "Docstring for folds SimplyFold Plugin
-
-
-"------------Start Python PEP 8 stuff----------------
-" Number of spaces that a pre-existing tab is equal to.
-au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
-
-"spaces for indents
-au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
-au BufRead,BufNewFile *.py,*.pyw set expandtab
-au BufRead,BufNewFile *.py set softtabstop=4
-
-" Use the below highlight group when displaying bad whitespace is desired.
-highlight BadWhitespace ctermbg=red guibg=red
-
-" Display tabs at the beginning of a line in Python mode as bad.
-au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
-" Make trailing whitespace be flagged as bad.
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
-" Wrap text after a certain number of characters
-au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
-
-" Use UNIX (\n) line endings.
-au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
-
-" Set the default file encoding to UTF-8:
-set encoding=utf-8
-
-" For full syntax highlighting:
-let python_highlight_all=1
 syntax on
-
-" Keep indentation level from previous line:
-autocmd FileType python set autoindent
-
-" make backspaces more powerfull
-set backspace=indent,eol,start
-
-
-"Folding based on indentation:
-autocmd FileType python set foldmethod=indent
-"use space to open folds
-nnoremap <space> za
-"----------Stop python PEP 8 stuff--------------
-
-"YouCompleteMe settings
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_global_ycm_extra_conf = '$HOME/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-"python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
-
-"Look pretty code!!!
-let python_highlight_all=1
-syntax on 
-
-" Solarized switching background
-"call togglebg#map("<F5>")
+filetype plugin on
+filetype indent on
+set autoindent
 
 " NerdTree settings
 let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
@@ -194,16 +106,6 @@ map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 "let g:nerdtree_tabs_open_on_console_startup=1 "Run on console startup
 
-
-" Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 set clipboard=unnamed "On Os X accesses system clipboard
 
@@ -213,3 +115,21 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
+
+"YouCompleteMe settings
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_global_ycm_extra_conf = '$HOME/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_collect_identifiers_from_tags_files = 1 
+let g:ycm_confirm_extra_conf = 0
+map <leader>g  :YcmCompleter GoTo<CR>
+
+"Fzf search in files
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+  \ -g "!{.git,node_modules,vendor}/*" '
+
+command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+
+"List of tags files
